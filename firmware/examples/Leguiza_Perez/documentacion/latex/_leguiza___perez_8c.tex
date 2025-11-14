@@ -1,0 +1,141 @@
+\doxysection{C\+:/\+Repositorios/\+Perez\+\_\+\+Leguiza\+\_\+2\+C\+\_\+2025/\+Perez\+\_\+\+Leguiza\+\_\+2\+C\+\_\+2025/firmware/examples/\+Leguiza\+\_\+\+Perez/main/\+Leguiza\+\_\+\+Perez.c File Reference}
+\hypertarget{_leguiza___perez_8c}{}\label{_leguiza___perez_8c}\index{C:/Repositorios/Perez\_Leguiza\_2C\_2025/Perez\_Leguiza\_2C\_2025/firmware/examples/Leguiza\_Perez/main/Leguiza\_Perez.c@{C:/Repositorios/Perez\_Leguiza\_2C\_2025/Perez\_Leguiza\_2C\_2025/firmware/examples/Leguiza\_Perez/main/Leguiza\_Perez.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include "{}freertos/\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \#include "{}freertos/task.\+h"{}}\newline
+{\ttfamily \#include "{}led.\+h"{}}\newline
+{\ttfamily \#include "{}ble\+\_\+mcu.\+h"{}}\newline
+{\ttfamily \#include "{}delay\+\_\+mcu.\+h"{}}\newline
+{\ttfamily \#include "{}fft.\+h"{}}\newline
+{\ttfamily \#include "{}iir\+\_\+filter.\+h"{}}\newline
+{\ttfamily \#include "{}analog\+\_\+io\+\_\+mcu.\+h"{}}\newline
+{\ttfamily \#include "{}timer\+\_\+mcu.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_leguiza___perez_8c_a3df1b4cad09974bfc68858fad7cdc054}{CONFIG\+\_\+\+BLINK\+\_\+\+PERIOD}}~500
+\item 
+\#define \mbox{\hyperlink{_leguiza___perez_8c_a7a3ccd8a43b5c5e8a4d573780da1fd4a}{LED\+\_\+\+BT}}~LED\+\_\+1
+\item 
+\#define \mbox{\hyperlink{_leguiza___perez_8c_a6b20d41d6252e9871430c242cb1a56e7}{BUFFER\+\_\+\+SIZE}}~512
+\item 
+\#define \mbox{\hyperlink{_leguiza___perez_8c_a6d453e12d4b1288782df262d072f5173}{EMG\+\_\+\+BUFFER\+\_\+\+LEN}}~512
+\item 
+\#define \mbox{\hyperlink{_leguiza___perez_8c_a9401e43a8c86acafb31c8e2709baefa1}{SAMPLE\+\_\+\+FREQ}}~512
+\item 
+\#define \mbox{\hyperlink{_leguiza___perez_8c_a65cbd553f0e8590748bcb3ccac064e5f}{ADC\+\_\+\+CH\+\_\+\+EMG}}~CH1
+\item 
+\#define \mbox{\hyperlink{_leguiza___perez_8c_adf20f648911f92f30947aaca6e8ab9c2}{FATIGUE\+\_\+\+THRESHOLD}}~0.\+15f
+\item 
+\#define \mbox{\hyperlink{_leguiza___perez_8c_a5532f01e195c01a6a9ebae87719c0d9a}{BASELINE\+\_\+\+WINDOWS}}~5
+\item 
+\#define \mbox{\hyperlink{_leguiza___perez_8c_aa11493f7473932ef6c7bea2b2d1d86b9}{CONSECUTIVE\+\_\+\+WINDOWS}}~3
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_leguiza___perez_8c_ab56e1ff0f71e003f2e08c6ec294528b1}{read\+\_\+data}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint8\+\_\+t length)
+\begin{DoxyCompactList}\small\item\em Función de callback que se ejecuta cuando se reciben datos por BLE. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+Task\+Handle\+\_\+t \mbox{\hyperlink{_leguiza___perez_8c_a4ab74ff870d41f6d40745849bd773da6}{emg\+\_\+task\+\_\+handle}} = NULL
+\end{DoxyCompactItemize}
+
+
+\label{doc-define-members}
+\Hypertarget{_leguiza___perez_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_leguiza___perez_8c_a65cbd553f0e8590748bcb3ccac064e5f}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!ADC\_CH\_EMG@{ADC\_CH\_EMG}}
+\index{ADC\_CH\_EMG@{ADC\_CH\_EMG}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{ADC\_CH\_EMG}{ADC\_CH\_EMG}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_a65cbd553f0e8590748bcb3ccac064e5f} 
+\#define ADC\+\_\+\+CH\+\_\+\+EMG~CH1}
+
+\Hypertarget{_leguiza___perez_8c_a5532f01e195c01a6a9ebae87719c0d9a}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!BASELINE\_WINDOWS@{BASELINE\_WINDOWS}}
+\index{BASELINE\_WINDOWS@{BASELINE\_WINDOWS}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{BASELINE\_WINDOWS}{BASELINE\_WINDOWS}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_a5532f01e195c01a6a9ebae87719c0d9a} 
+\#define BASELINE\+\_\+\+WINDOWS~5}
+
+\Hypertarget{_leguiza___perez_8c_a6b20d41d6252e9871430c242cb1a56e7}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!BUFFER\_SIZE@{BUFFER\_SIZE}}
+\index{BUFFER\_SIZE@{BUFFER\_SIZE}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{BUFFER\_SIZE}{BUFFER\_SIZE}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_a6b20d41d6252e9871430c242cb1a56e7} 
+\#define BUFFER\+\_\+\+SIZE~512}
+
+\Hypertarget{_leguiza___perez_8c_a3df1b4cad09974bfc68858fad7cdc054}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!CONFIG\_BLINK\_PERIOD@{CONFIG\_BLINK\_PERIOD}}
+\index{CONFIG\_BLINK\_PERIOD@{CONFIG\_BLINK\_PERIOD}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{CONFIG\_BLINK\_PERIOD}{CONFIG\_BLINK\_PERIOD}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_a3df1b4cad09974bfc68858fad7cdc054} 
+\#define CONFIG\+\_\+\+BLINK\+\_\+\+PERIOD~500}
+
+\Hypertarget{_leguiza___perez_8c_aa11493f7473932ef6c7bea2b2d1d86b9}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!CONSECUTIVE\_WINDOWS@{CONSECUTIVE\_WINDOWS}}
+\index{CONSECUTIVE\_WINDOWS@{CONSECUTIVE\_WINDOWS}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{CONSECUTIVE\_WINDOWS}{CONSECUTIVE\_WINDOWS}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_aa11493f7473932ef6c7bea2b2d1d86b9} 
+\#define CONSECUTIVE\+\_\+\+WINDOWS~3}
+
+\Hypertarget{_leguiza___perez_8c_a6d453e12d4b1288782df262d072f5173}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!EMG\_BUFFER\_LEN@{EMG\_BUFFER\_LEN}}
+\index{EMG\_BUFFER\_LEN@{EMG\_BUFFER\_LEN}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{EMG\_BUFFER\_LEN}{EMG\_BUFFER\_LEN}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_a6d453e12d4b1288782df262d072f5173} 
+\#define EMG\+\_\+\+BUFFER\+\_\+\+LEN~512}
+
+\Hypertarget{_leguiza___perez_8c_adf20f648911f92f30947aaca6e8ab9c2}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!FATIGUE\_THRESHOLD@{FATIGUE\_THRESHOLD}}
+\index{FATIGUE\_THRESHOLD@{FATIGUE\_THRESHOLD}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{FATIGUE\_THRESHOLD}{FATIGUE\_THRESHOLD}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_adf20f648911f92f30947aaca6e8ab9c2} 
+\#define FATIGUE\+\_\+\+THRESHOLD~0.\+15f}
+
+\Hypertarget{_leguiza___perez_8c_a7a3ccd8a43b5c5e8a4d573780da1fd4a}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!LED\_BT@{LED\_BT}}
+\index{LED\_BT@{LED\_BT}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{LED\_BT}{LED\_BT}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_a7a3ccd8a43b5c5e8a4d573780da1fd4a} 
+\#define LED\+\_\+\+BT~LED\+\_\+1}
+
+\Hypertarget{_leguiza___perez_8c_a9401e43a8c86acafb31c8e2709baefa1}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!SAMPLE\_FREQ@{SAMPLE\_FREQ}}
+\index{SAMPLE\_FREQ@{SAMPLE\_FREQ}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{SAMPLE\_FREQ}{SAMPLE\_FREQ}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_a9401e43a8c86acafb31c8e2709baefa1} 
+\#define SAMPLE\+\_\+\+FREQ~512}
+
+
+
+\label{doc-func-members}
+\Hypertarget{_leguiza___perez_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{_leguiza___perez_8c_ab56e1ff0f71e003f2e08c6ec294528b1}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!read\_data@{read\_data}}
+\index{read\_data@{read\_data}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{read\_data()}{read\_data()}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_ab56e1ff0f71e003f2e08c6ec294528b1} 
+void read\+\_\+data (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{uint8\+\_\+t}]{length}{}\end{DoxyParamCaption})}
+
+
+
+Función de callback que se ejecuta cuando se reciben datos por BLE. 
+
+Si se recibe el carácter \textquotesingle{}R\textquotesingle{}, notifica la tarea EMGTask para procesar una nueva ventana de datos EMG. ~\newline
+ Si se recibe el carácter \textquotesingle{}B\textquotesingle{}, se borra la gráfica de la FFT y se limpian los vectores de datos asociados.
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Puntero al arreglo de bytes recibidos. \\
+\hline
+{\em length} & Longitud del mensaje recibido. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-var-members}
+\Hypertarget{_leguiza___perez_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{_leguiza___perez_8c_a4ab74ff870d41f6d40745849bd773da6}\index{Leguiza\_Perez.c@{Leguiza\_Perez.c}!emg\_task\_handle@{emg\_task\_handle}}
+\index{emg\_task\_handle@{emg\_task\_handle}!Leguiza\_Perez.c@{Leguiza\_Perez.c}}
+\doxysubsubsection{\texorpdfstring{emg\_task\_handle}{emg\_task\_handle}}
+{\footnotesize\ttfamily \label{_leguiza___perez_8c_a4ab74ff870d41f6d40745849bd773da6} 
+Task\+Handle\+\_\+t emg\+\_\+task\+\_\+handle = NULL}
+
